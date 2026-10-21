@@ -1,0 +1,406 @@
+@page "/invoices"
+@attribute [Authorize]
+@implements IDisposable
+@inject InvoiceSearchViewModel ViewModel
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Consulta de Facturas - NorthWind</PageTitle>
+
+<div class="container-fluid px-4 py-3">
+    <!-- Header Title (Oculto al Imprimir) -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom no-print">
+        <div>
+            <h2 class="h3 text-primary mb-0">Facturas</h2>
+        </div>
+        <div>
+            <a href="pos" class="btn btn-outline-primary">
+                <i class="bi bi-cart-plus me-1"></i>Nueva venta
+            </a>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(ViewModel.ErrorMessage))
+    {
+        <div class="alert @(ViewModel.IsUnauthorized ? "alert-warning" : "alert-danger") alert-dismissible fade show shadow-sm mb-4 no-print" role="alert">
+            <i class="bi @(ViewModel.IsUnauthorized ? "bi-shield-exclamation" : "bi-exclamation-triangle-fill") me-2 fs-5"></i>
+            <span>@ViewModel.ErrorMessage</span>
+            @if (ViewModel.IsUnauthorized)
+            {
+                <a href="user/logout" class="btn btn-sm btn-outline-dark ms-3">
+                    <i class="bi bi-box-arrow-right me-1"></i>Cerrar sesión e ingresar nuevamente
+                </a>
+            }
+            <button type="button" class="btn-close" @onclick="() => ViewModel.ErrorMessage = null"></button>
+        </div>
+    }
+
+    <!-- Buscador de Facturas (Oculto al Imprimir) -->
+    <div class="card shadow-sm border-0 mb-4 no-print">
+        <div class="card-body py-3 px-4">
+            <div class="row g-2 align-items-center">
+                <div class="col-md-9">
+                    <label class="form-label fw-bold text-muted small mb-1">
+                        <i class="bi bi-search me-1"></i>Buscar por número, cédula o cliente
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Escribe para buscar"
+                               value="@ViewModel.SearchTerm"
+                               @oninput="HandleSearchInput"
+                               @onkeydown="HandleKeyDown" />
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex align-items-end pt-md-3">
+                    <button type="button" class="btn btn-primary w-100" @onclick="SearchInvoices">
+                        <i class="bi bi-search me-1"></i>Buscar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISTA DE FACTURA RECONSTRUIDA (ÁREA IMPRIMIBLE) -->
+    @if (ViewModel.SelectedOrder != null)
+    {
+        <div class="invoice-printable-area card shadow-lg border-0 mb-5">
+            <div class="card-body p-4">
+                <!-- Botones de Acción (no-print) -->
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom no-print">
+                    <span class="badge bg-success fs-6">
+                        <i class="bi bi-receipt me-1"></i>Factura @ViewModel.SelectedOrder.OrderId.ToString("D8")
+                    </span>
+                    <div>
+                        <button type="button" class="btn btn-primary btn-sm me-2 shadow-sm" @onclick="PrintInvoice">
+                            <i class="bi bi-file-earmark-pdf me-1"></i>Guardar como PDF
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" @onclick="CloseDetail">
+                            <i class="bi bi-x-circle me-1"></i>Volver
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Encabezado de la Factura -->
+                <div class="row align-items-start mb-4">
+                    <div class="col-sm-7">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-shop fs-2 text-primary me-2"></i>
+                            <div>
+                                <h4 class="fw-bold mb-0 text-primary">NORTHWIND SALES</h4>
+                                <small class="text-muted">Universidad Técnica de Ambato</small>
+                            </div>
+                        </div>
+                        <p class="text-muted small mb-0">
+                            <strong>RUC:</strong> 1800123456001<br />
+                            <strong>Dirección:</strong> Av. Los Chasquis y Río Guayllabamba, Ambato - Ecuador<br />
+                            <strong>Teléfono:</strong> +593 3 2851894 &bull; <strong>Email:</strong> facturacion@northwind.com
+                        </p>
+                    </div>
+                    <div class="col-sm-5 text-sm-end mt-3 mt-sm-0">
+                        <div class="p-3 bg-light rounded border">
+                            <span class="text-uppercase fw-bold text-secondary d-block small">Factura</span>
+                            <span class="fs-4 fw-bold text-dark d-block">No. @ViewModel.SelectedOrder.OrderId.ToString("D8")</span>
+                            <hr class="my-2" />
+                            <small class="text-muted d-block">
+                                <strong>Fecha:</strong> @ViewModel.SelectedOrder.OrderDate.ToString("dd/MM/yyyy HH:mm")
+                            </small>
+                            <small class="text-muted d-block">
+                                <strong>Atendió:</strong> @ViewModel.SelectedOrder.UserId
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bloque de Datos del Cliente -->
+                <div class="card bg-light border-0 mb-4">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-md-6 mb-2 mb-md-0">
+                                <span class="text-muted small d-block">CLIENTE</span>
+                                <h6 class="fw-bold mb-1">@ViewModel.SelectedOrder.CustomerName</h6>
+                                <span class="text-muted small"><strong>Cédula:</strong> @ViewModel.SelectedOrder.CustomerDni</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="text-muted small d-block">CONTACTO</span>
+                                <span class="small d-block"><strong>Email:</strong> @ViewModel.SelectedOrder.CustomerEmail</span>
+                                <span class="small d-block"><strong>Teléfono:</strong> @ViewModel.SelectedOrder.CustomerPhone</span>
+                                <span class="small d-block"><strong>Dirección:</strong> @ViewModel.SelectedOrder.CustomerAddress</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Detalle de Productos -->
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width: 5%;" class="text-center">#</th>
+                                <th style="width: 10%;">Código</th>
+                                <th style="width: 45%;">Producto</th>
+                                <th style="width: 15%;" class="text-end">Precio Unitario</th>
+                                <th style="width: 10%;" class="text-center">Cant.</th>
+                                <th style="width: 15%;" class="text-end">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewModel.SelectedOrder.Details != null && ViewModel.SelectedOrder.Details.Any())
+                            {
+                                int row = 1;
+                                @foreach (var item in ViewModel.SelectedOrder.Details)
+                                {
+                                    <tr>
+                                        <td class="text-center text-muted">@row</td>
+                                        <td><span class="badge bg-secondary">#@item.ProductId</span></td>
+                                        <td class="fw-semibold">@item.ProductName</td>
+                                        <td class="text-end">@item.UnitPrice.ToString("N2")</td>
+                                        <td class="text-center fw-bold">@item.Quantity</td>
+                                        <td class="text-end fw-bold">@item.Subtotal.ToString("N2")</td>
+                                    </tr>
+                                    row++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Resumen Financiero y Totales -->
+                <div class="row justify-content-end mb-4 invoice-summary">
+                    <div class="col-md-5">
+                        <table class="table table-bordered mb-0">
+                            <tbody>
+                                <tr>
+                                    <th class="bg-light text-muted">SUBTOTAL:</th>
+                                    <td class="text-end fw-semibold">@ViewModel.SelectedOrder.Subtotal.ToString("N2")</td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-light text-muted">IVA (15%):</th>
+                                    <td class="text-end fw-semibold">@ViewModel.SelectedOrder.Tax.ToString("N2")</td>
+                                </tr>
+                                <tr class="table-primary border-2">
+                                    <th class="h5 mb-0 fw-bold">TOTAL A PAGAR:</th>
+                                    <td class="text-end h4 mb-0 fw-bold text-primary">
+                                        $@ViewModel.SelectedOrder.TotalAmount.ToString("N2")
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="border-top pt-3 text-center text-muted small invoice-footer">
+                    <p class="mb-0">Gracias por tu compra.</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Historial de Facturas (Oculto al imprimir y oculto al ver una factura en detalle) -->
+    @if (ViewModel.SelectedOrder == null)
+    {
+        <div class="card shadow-sm border-0 no-print">
+            <div class="card-header bg-light py-3 border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 fs-6 text-dark">
+                    <i class="bi bi-clock-history me-2 text-primary"></i>Historial de Facturas Guardadas
+                </h5>
+                <small class="text-muted">Total: @ViewModel.PagedResult.TotalCount facturas registradas</small>
+            </div>
+            <div class="card-body p-0">
+                @if (ViewModel.IsLoading && ViewModel.SelectedOrder == null)
+                {
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Consultando facturas...</span>
+                        </div>
+                        <p class="mt-2 text-muted">Consultando facturas guardadas...</p>
+                    </div>
+                }
+                else if (ViewModel.PagedResult.Items != null && ViewModel.PagedResult.Items.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>N° Factura</th>
+                                    <th>Fecha y Hora</th>
+                                    <th>Nombre del Cliente</th>
+                                    <th>Cédula</th>
+                                    <th class="text-end">Subtotal</th>
+                                    <th class="text-end">IVA (15%)</th>
+                                    <th class="text-end">Total a Pagar</th>
+                                    <th>Atendió</th>
+                                    <th class="text-center">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var invoice in ViewModel.PagedResult.Items)
+                                {
+                                    <tr class="@(ViewModel.SelectedOrder?.OrderId == invoice.OrderId ? "table-primary" : "")">
+                                        <td>
+                                            <strong class="text-primary">#@((MarkupString)HighlightText(invoice.OrderId.ToString("D6"), ViewModel.SearchTerm))</strong>
+                                        </td>
+                                        <td><small class="text-muted">@invoice.OrderDate.ToString("dd/MM/yyyy HH:mm")</small></td>
+                                        <td><strong>@((MarkupString)HighlightText(invoice.CustomerName, ViewModel.SearchTerm))</strong></td>
+                                        <td><span class="badge bg-light text-dark border">@((MarkupString)HighlightText(invoice.CustomerDni, ViewModel.SearchTerm))</span></td>
+                                        <td class="text-end">@invoice.Subtotal.ToString("N2")</td>
+                                        <td class="text-end">@invoice.Tax.ToString("N2")</td>
+                                        <td class="text-end fw-bold text-success">$@invoice.TotalAmount.ToString("N2")</td>
+                                        <td><small class="text-muted">@invoice.UserId</small></td>
+                                        <td class="text-center">
+                                            <button type="button"
+                                                    class="btn btn-sm btn-outline-primary"
+                                                    @onclick="() => SelectInvoice(invoice.OrderId)">
+                                                <i class="bi bi-eye me-1"></i>Ver / PDF
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginación -->
+                    <div class="d-flex justify-content-between align-items-center p-3 border-top">
+                        <small class="text-muted">
+                            Página @ViewModel.PagedResult.PageIndex de @ViewModel.PagedResult.TotalPages (@ViewModel.PagedResult.TotalCount facturas)
+                        </small>
+                        <nav aria-label="Paginación de facturas">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item @(!ViewModel.PagedResult.HasPreviousPage ? "disabled" : "")">
+                                    <button class="page-link" @onclick="() => GoToPage(ViewModel.PagedResult.PageIndex - 1)">
+                                        &laquo; Anterior
+                                    </button>
+                                </li>
+
+                                @for (int i = 1; i <= ViewModel.PagedResult.TotalPages; i++)
+                                {
+                                    int pageNum = i;
+                                    <li class="page-item @(pageNum == ViewModel.PagedResult.PageIndex ? "active" : "")">
+                                        <button class="page-link" @onclick="() => GoToPage(pageNum)">
+                                            @pageNum
+                                        </button>
+                                    </li>
+                                }
+
+                                <li class="page-item @(!ViewModel.PagedResult.HasNextPage ? "disabled" : "")">
+                                    <button class="page-link" @onclick="() => GoToPage(ViewModel.PagedResult.PageIndex + 1)">
+                                        Siguiente &raquo;
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                        <p class="mb-0">No encontramos facturas. Prueba con otro número, cédula o nombre.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public int? OrderId { get; set; }
+
+    private System.Timers.Timer? debounceTimer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ViewModel.SearchAsync(1);
+
+        if (OrderId.HasValue && OrderId.Value > 0)
+        {
+            await SelectInvoice(OrderId.Value);
+        }
+    }
+
+    private void HandleSearchInput(ChangeEventArgs e)
+    {
+        ViewModel.SearchTerm = e.Value?.ToString() ?? string.Empty;
+        debounceTimer?.Stop();
+        debounceTimer?.Dispose();
+        debounceTimer = new System.Timers.Timer(300);
+        debounceTimer.AutoReset = false;
+        debounceTimer.Elapsed += async (_, _) =>
+        {
+            await InvokeAsync(async () =>
+            {
+                await ViewModel.SearchAsync(1);
+                StateHasChanged();
+            });
+        };
+        debounceTimer.Start();
+    }
+
+    private async Task SearchInvoices()
+    {
+        debounceTimer?.Stop();
+        await ViewModel.SearchAsync(1);
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SearchInvoices();
+        }
+    }
+
+    private async Task GoToPage(int page)
+    {
+        await ViewModel.GoToPageAsync(page);
+    }
+
+    private async Task SelectInvoice(int orderId)
+    {
+        await ViewModel.SelectOrderAsync(orderId);
+    }
+
+    private void CloseDetail()
+    {
+        ViewModel.ClearSelectedOrder();
+    }
+
+    private async Task PrintInvoice()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("print");
+        }
+        catch
+        {
+            await JSRuntime.InvokeVoidAsync("printInvoice");
+        }
+    }
+
+    private MarkupString HighlightText(string? text, string? query)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return (MarkupString)string.Empty;
+        if (string.IsNullOrWhiteSpace(query)) return (MarkupString)System.Net.WebUtility.HtmlEncode(text);
+
+        var trimmed = query.Trim();
+        if (string.IsNullOrWhiteSpace(trimmed)) return (MarkupString)System.Net.WebUtility.HtmlEncode(text);
+
+        var pattern = System.Text.RegularExpressions.Regex.Escape(trimmed);
+        var encodedText = System.Net.WebUtility.HtmlEncode(text);
+        var highlighted = System.Text.RegularExpressions.Regex.Replace(
+            encodedText,
+            $"({pattern})",
+            "<mark class=\"search-highlight\">$1</mark>",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+        return (MarkupString)highlighted;
+    }
+
+    public void Dispose()
+    {
+        debounceTimer?.Stop();
+        debounceTimer?.Dispose();
+    }
+}

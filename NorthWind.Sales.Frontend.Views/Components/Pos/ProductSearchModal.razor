@@ -1,0 +1,225 @@
+@inject ProductSearchViewModel ViewModel
+@implements IDisposable
+
+@if (IsOpen)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-box-seam me-2"></i>@Title
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="input-group mb-3">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Nombre o código del producto"
+                               value="@ViewModel.SearchTerm"
+                               @oninput="HandleSearchInput"
+                               @onkeydown="HandleKeyDown" />
+                        <button class="btn btn-success px-4" type="button" @onclick="SearchProducts">
+                            <i class="bi bi-search me-1"></i>Buscar
+                        </button>
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(ViewModel.ErrorMessage))
+                    {
+                        <div class="alert alert-warning py-2 px-3 mb-3 small">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i>@ViewModel.ErrorMessage
+                        </div>
+                    }
+
+                    @if (ViewModel.IsLoading)
+                    {
+                        <div class="text-center my-4">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="visually-hidden">Buscando productos disponibles...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Buscando productos disponibles...</p>
+                        </div>
+                    }
+                    else if (ViewModel.PagedResult.Items != null && ViewModel.PagedResult.Items.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                    <th>Cód.</th>
+                                        <th>Nombre del Producto</th>
+                                        <th class="text-end">Precio Unitario</th>
+                                <th class="text-center">Disponibles</th>
+                                        <th class="text-center">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in ViewModel.PagedResult.Items)
+                                    {
+                                        <tr>
+                                            <td><span class="badge bg-secondary">#@((MarkupString)HighlightText(product.ProductId.ToString(), ViewModel.SearchTerm))</span></td>
+                                            <td><strong>@((MarkupString)HighlightText(product.Name, ViewModel.SearchTerm))</strong></td>
+                                            <td class="text-end fw-semibold text-primary">@product.UnitPrice.ToString("N2")</td>
+                                            <td class="text-center">
+                                                <span class="badge @(product.Stock > 10 ? "bg-success" : "bg-warning text-dark")">
+                                                    @product.Stock unidades
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button"
+                                                        class="btn btn-sm btn-primary"
+                                                        @onclick="() => SelectProduct(product)">
+                                                    <i class="bi bi-cart-plus me-1"></i>Seleccionar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Block Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                            <small class="text-muted">
+                                Página @ViewModel.PagedResult.PageIndex de @ViewModel.PagedResult.TotalPages (@ViewModel.PagedResult.TotalCount productos disponibles)
+                            </small>
+                            <nav aria-label="Product search pagination">
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item @(!ViewModel.PagedResult.HasPreviousPage ? "disabled" : "")">
+                                        <button class="page-link" @onclick="() => GoToPage(ViewModel.PagedResult.PageIndex - 1)">
+                                            &laquo; Anterior
+                                        </button>
+                                    </li>
+
+                                    @for (int i = 1; i <= ViewModel.PagedResult.TotalPages; i++)
+                                    {
+                                        int pageNum = i;
+                                        <li class="page-item @(pageNum == ViewModel.PagedResult.PageIndex ? "active" : "")">
+                                            <button class="page-link" @onclick="() => GoToPage(pageNum)">
+                                                @pageNum
+                                            </button>
+                                        </li>
+                                    }
+
+                                    <li class="page-item @(!ViewModel.PagedResult.HasNextPage ? "disabled" : "")">
+                                        <button class="page-link" @onclick="() => GoToPage(ViewModel.PagedResult.PageIndex + 1)">
+                                            Siguiente &raquo;
+                                        </button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info text-center my-3">
+                            No hay productos disponibles para mostrar.
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
+    [Parameter] public EventCallback<PosProductDto> OnProductSelected { get; set; }
+    [Parameter] public string Title { get; set; } = "Buscar producto";
+
+    private bool lastIsOpen;
+    private System.Timers.Timer? debounceTimer;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (IsOpen && !lastIsOpen)
+        {
+            ViewModel.SearchTerm = string.Empty;
+            ViewModel.CurrentPage = 1;
+            await ViewModel.SearchAsync(1);
+        }
+        lastIsOpen = IsOpen;
+    }
+
+    private void HandleSearchInput(ChangeEventArgs e)
+    {
+        ViewModel.SearchTerm = e.Value?.ToString() ?? string.Empty;
+        debounceTimer?.Stop();
+        debounceTimer?.Dispose();
+        debounceTimer = new System.Timers.Timer(300);
+        debounceTimer.AutoReset = false;
+        debounceTimer.Elapsed += async (_, _) =>
+        {
+            await InvokeAsync(async () =>
+            {
+                await ViewModel.SearchAsync(1);
+                StateHasChanged();
+            });
+        };
+        debounceTimer.Start();
+    }
+
+    private async Task SearchProducts()
+    {
+        debounceTimer?.Stop();
+        await ViewModel.SearchAsync(1);
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SearchProducts();
+        }
+    }
+
+    private async Task GoToPage(int page)
+    {
+        await ViewModel.GoToPageAsync(page);
+    }
+
+    private async Task SelectProduct(PosProductDto product)
+    {
+        await OnProductSelected.InvokeAsync(product);
+        await CloseModal();
+    }
+
+    private async Task CloseModal()
+    {
+        debounceTimer?.Stop();
+        ViewModel.SearchTerm = string.Empty;
+        ViewModel.CurrentPage = 1;
+        IsOpen = false;
+        await IsOpenChanged.InvokeAsync(false);
+    }
+
+    private MarkupString HighlightText(string? text, string? query)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return (MarkupString)string.Empty;
+        if (string.IsNullOrWhiteSpace(query)) return (MarkupString)System.Net.WebUtility.HtmlEncode(text);
+
+        var trimmed = query.Trim();
+        if (string.IsNullOrWhiteSpace(trimmed)) return (MarkupString)System.Net.WebUtility.HtmlEncode(text);
+
+        var pattern = System.Text.RegularExpressions.Regex.Escape(trimmed);
+        var encodedText = System.Net.WebUtility.HtmlEncode(text);
+        var highlighted = System.Text.RegularExpressions.Regex.Replace(
+            encodedText,
+            $"({pattern})",
+            "<mark class=\"search-highlight\">$1</mark>",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+        return (MarkupString)highlighted;
+    }
+
+    public void Dispose()
+    {
+        debounceTimer?.Stop();
+        debounceTimer?.Dispose();
+    }
+}

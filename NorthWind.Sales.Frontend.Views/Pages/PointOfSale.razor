@@ -1,0 +1,365 @@
+@page "/pos"
+@attribute [Authorize]
+@inject PosOrderViewModel ViewModel
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthStateProvider
+
+<PageTitle>Crear Orden - NorthWind</PageTitle>
+
+<div class="container-fluid px-4 py-3">
+    <!-- Encabezado Principal -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <h2 class="h3 text-primary mb-0">Nueva venta</h2>
+        </div>
+        <div>
+            <a href="invoices" class="btn btn-outline-primary me-2">
+                <i class="bi bi-receipt me-1"></i>Facturas
+            </a>
+            <button type="button" class="btn btn-outline-secondary" @onclick="ViewModel.Reset">
+                <i class="bi bi-arrow-counterclockwise me-1"></i>Nueva Venta
+            </button>
+        </div>
+    </div>
+
+    <!-- Alertas de Notificación -->
+    @if (!string.IsNullOrWhiteSpace(ViewModel.SuccessMessage))
+    {
+        <div class="pos-success-toast" role="status" aria-live="polite" aria-atomic="true">
+            <div class="pos-success-toast-icon"><i class="bi bi-check-lg"></i></div>
+            <div class="pos-success-toast-content">
+                <h5 class="mb-1">Venta lista</h5>
+                <p class="mb-3">La venta #@ViewModel.LastCreatedOrderId se registró correctamente.</p>
+            @if (ViewModel.LastCreatedOrderId.HasValue)
+            {
+                <a href="@($"invoices?orderId={ViewModel.LastCreatedOrderId}")" class="btn btn-sm btn-primary">
+                    <i class="bi bi-file-earmark-pdf me-1"></i>Abrir factura PDF
+                </a>
+            }
+            </div>
+            <button type="button" class="btn-close pos-success-toast-close" aria-label="Cerrar aviso" @onclick="ViewModel.DismissSuccessMessage"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(ViewModel.ErrorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>@ViewModel.ErrorMessage
+            <button type="button" class="btn-close" @onclick="() => ViewModel.ErrorMessage = null"></button>
+        </div>
+    }
+
+    <!-- Metadatos de la Transacción en Horizontal Arriba -->
+    <div class="card shadow-sm border-0 mb-4 bg-light">
+        <div class="card-body py-2 px-3">
+            <div class="row align-items-center g-3">
+                <div class="col-sm-6">
+                    <small class="text-muted d-block"><i class="bi bi-calendar3 text-primary me-1"></i>Fecha y hora</small>
+                    <span class="fw-semibold text-dark">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                </div>
+                <div class="col-sm-6">
+                    <small class="text-muted d-block"><i class="bi bi-person-badge text-primary me-1"></i>Atiende</small>
+                    <span class="fw-semibold text-primary">@currentUserName</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- COLUMNA IZQUIERDA: Selección de Cliente y Datos de Facturación (Campos Bloqueados) -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+                    <h5 class="card-title mb-0 fs-6">
+                        <i class="bi bi-person-badge me-2"></i>Información del Cliente
+                    </h5>
+                    <button type="button" class="btn btn-sm btn-light text-primary fw-bold" @onclick="OpenCustomerSearchModal">
+                        <i class="bi bi-search me-1"></i>Buscar Cliente
+                    </button>
+                </div>
+                <div class="card-body">
+                    @if (ViewModel.SelectedCustomer != null)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">N.º de cliente</label>
+                            <input type="text" class="form-control form-control-sm bg-light" value="@ViewModel.SelectedCustomer.CustomerId" readonly disabled />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">Cédula</label>
+                            <input type="text" class="form-control form-control-sm bg-light fw-bold" value="@ViewModel.SelectedCustomer.Dni" readonly disabled />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">Nombre</label>
+                            <input type="text" class="form-control form-control-sm bg-light" value="@ViewModel.SelectedCustomer.FullName" readonly disabled />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">Correo Electrónico</label>
+                            <input type="text" class="form-control form-control-sm bg-light" value="@ViewModel.SelectedCustomer.Email" readonly disabled />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">Teléfono</label>
+                            <input type="text" class="form-control form-control-sm bg-light" value="@ViewModel.SelectedCustomer.Phone" readonly disabled />
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label text-muted small fw-bold">Dirección de Facturación</label>
+                            <input type="text" class="form-control form-control-sm bg-light" value="@ViewModel.SelectedCustomer.Address" readonly disabled />
+                        </div>
+                        @if (ViewModel.HasCustomerDebt)
+                        {
+                            <div class="alert alert-warning py-2 px-3 mb-0 small" role="alert">
+                                <i class="bi bi-exclamation-circle me-1"></i>
+                                Este cliente tiene un saldo pendiente de $@ViewModel.SelectedCustomer.CurrentBalance.ToString("N2") y no puede comprar.
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 bg-light rounded border border-dashed">
+                            <i class="bi bi-person-plus text-muted fs-1 mb-2 d-block"></i>
+                            <p class="text-muted mb-3 small">Selecciona un cliente para esta venta.</p>
+                            <button type="button" class="btn btn-primary btn-sm" @onclick="OpenCustomerSearchModal">
+                                <i class="bi bi-search me-1"></i>Buscar y Seleccionar Cliente
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: Detalle de Productos y Resumen de Totales -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center py-3 border-bottom">
+                    <h5 class="card-title mb-0 fs-6 text-dark">
+                        <i class="bi bi-list-check me-2 text-primary"></i>Productos de la venta
+                    </h5>
+                    <button type="button" class="btn btn-sm btn-primary" @onclick="OpenAddProductModal">
+                        <i class="bi bi-plus-circle me-1"></i>Agregar Producto
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 5%;">#</th>
+                                    <th style="width: 10%;">Cód.</th>
+                                    <th style="width: 30%;">Producto</th>
+                                    <th style="width: 15%;" class="text-end">Precio Unitario</th>
+                                    <th style="width: 15%;" class="text-center">Cantidad</th>
+                                    <th style="width: 15%;" class="text-end">Subtotal</th>
+                                    <th style="width: 10%;" class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewModel.Details.Any())
+                                {
+                                    int index = 1;
+                                    @foreach (var item in ViewModel.Details)
+                                    {
+                                        <tr>
+                                            <td class="text-muted small">@index</td>
+                                            <td><span class="badge bg-secondary">#@item.ProductId</span></td>
+                                            <td>
+                                                <div class="fw-bold">@item.ProductName</div>
+                            <small class="@(item.AvailableStock <= 0 ? "text-danger fw-semibold" : "text-muted")">
+                                @(item.AvailableStock <= 0 ? "Sin stock" : $"Disponibles: {item.AvailableStock}")
+                            </small>
+                                            </td>
+                                            <td class="text-end fw-semibold">@item.UnitPrice.ToString("N2")</td>
+                                            <td>
+                                                <div class="input-group input-group-sm justify-content-center">
+                                                    <input type="number"
+                                                           class="form-control text-center @(item.Quantity <= 0 || item.IsStockExceeded ? "is-invalid border-danger text-danger fw-bold" : "")"
+                                                           style="max-width: 90px;"
+                                                           min="1"
+                                                           max="@item.AvailableStock"
+                                                           value="@item.Quantity"
+                                                           disabled="@(item.AvailableStock <= 0)"
+                                                           @oninput="(e) => OnQuantityChanged(item, e)"
+                                                           @onchange="(e) => OnQuantityChanged(item, e)" />
+                                                </div>
+                                                @if (item.AvailableStock <= 0)
+                                                {
+                                                    <div class="text-danger small mt-1 text-center fw-bold">
+                                                        <i class="bi bi-exclamation-circle me-1"></i>Sin stock
+                                                    </div>
+                                                }
+                                                else if (item.Quantity <= 0)
+                                                {
+                                                    <div class="text-danger small mt-1 text-center fw-bold">
+                                                        <i class="bi bi-x-circle me-1"></i>Ingresa al menos 1
+                                                    </div>
+                                                }
+                                                else if (item.IsStockExceeded)
+                                                {
+                                                    <div class="text-danger small mt-1 text-center fw-bold">
+                                                        <i class="bi bi-exclamation-triangle me-1"></i>Máximo: @item.AvailableStock
+                                                    </div>
+                                                }
+                                            </td>
+                                            <td class="text-end fw-bold">@item.Subtotal.ToString("N2")</td>
+                                            <td class="text-center">
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <button type="button"
+                                                            class="btn btn-outline-primary"
+                                                            title="Cambiar / Reemplazar Producto"
+                                                            @onclick="() => OpenReplaceProductModal(item)">
+                                                        <i class="bi bi-arrow-repeat"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                            class="btn btn-outline-danger"
+                                                            title="Eliminar Producto"
+                                                            @onclick="() => ViewModel.RemoveDetail(item)">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        index++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" class="text-center py-5 text-muted">
+                                            <i class="bi bi-basket fs-1 d-block mb-2 text-secondary"></i>
+                                            <p class="mb-2">Agrega productos para comenzar.</p>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" @onclick="OpenAddProductModal">
+                                                <i class="bi bi-plus-circle me-1"></i>Agregar Primer Producto
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen Financiero y Totales -->
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-0">
+                            <span class="text-muted">Subtotal:</span>
+                            <span class="fw-semibold fs-5">@ViewModel.Subtotal.ToString("N2")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-0">
+                            <span class="text-muted">IVA (15%):</span>
+                            <span class="fw-semibold fs-5">@ViewModel.Tax.ToString("N2")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3 border-top border-2">
+                            <span class="h5 mb-0 text-dark fw-bold">TOTAL A PAGAR:</span>
+                            <span class="h3 mb-0 text-primary fw-bold">$@ViewModel.TotalAmount.ToString("N2")</span>
+                        </li>
+                    </ul>
+
+                    <button type="button"
+                            class="btn btn-primary btn-lg w-100 shadow"
+                            disabled="@(ViewModel.IsSaving || ViewModel.SelectedCustomer == null || ViewModel.HasCustomerDebt || !ViewModel.Details.Any() || ViewModel.HasInvalidQuantity)"
+                            @onclick="SaveOrder">
+                        @if (ViewModel.IsSaving)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                            <span>Guardando venta...</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-check2-circle me-2"></i>
+                            <span>Registrar venta</span>
+                        }
+                    </button>
+
+                    @if (ViewModel.HasInvalidQuantity)
+                    {
+                        <div class="alert alert-danger py-2 px-3 mt-3 mb-0 small text-center">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                            Revisa el stock y las cantidades marcadas para continuar con la venta.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Selector de cliente -->
+<CustomerSearchModal @bind-IsOpen="isCustomerModalOpen"
+                     OnCustomerSelected="OnCustomerSelected" />
+
+<!-- Selector de producto -->
+<ProductSearchModal @bind-IsOpen="isProductModalOpen"
+                    Title="@productModalTitle"
+                    OnProductSelected="OnProductSelected" />
+
+@code {
+    private bool isCustomerModalOpen = false;
+    private bool isProductModalOpen = false;
+    private string productModalTitle = "Buscar producto";
+    private PosOrderDetailItemViewModel? itemToReplace = null;
+    private string currentUserName = "Cajero Autenticado";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        if (authState.User?.Identity?.IsAuthenticated == true)
+        {
+            currentUserName = authState.User.Identity.Name ?? "Cajero POS";
+        }
+    }
+
+    private void OpenCustomerSearchModal()
+    {
+        isCustomerModalOpen = true;
+    }
+
+    private void OnCustomerSelected(PosCustomerDto customer)
+    {
+        ViewModel.SelectCustomer(customer);
+    }
+
+    private void OpenAddProductModal()
+    {
+        itemToReplace = null;
+        productModalTitle = "Agregar producto";
+        isProductModalOpen = true;
+    }
+
+    private void OpenReplaceProductModal(PosOrderDetailItemViewModel item)
+    {
+        itemToReplace = item;
+        productModalTitle = $"Reemplazar Producto '{item.ProductName}' por Otro";
+        isProductModalOpen = true;
+    }
+
+    private void OnProductSelected(PosProductDto product)
+    {
+        if (itemToReplace != null)
+        {
+            ViewModel.ReplaceProduct(itemToReplace, product);
+            itemToReplace = null;
+        }
+        else
+        {
+            ViewModel.AddOrUpdateProduct(product, 1);
+        }
+    }
+
+    private void OnQuantityChanged(PosOrderDetailItemViewModel item, ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int qty))
+        {
+            item.Quantity = qty;
+        }
+        else
+        {
+            item.Quantity = 0;
+        }
+    }
+
+    private async Task SaveOrder()
+    {
+        await ViewModel.SaveOrderAsync();
+    }
+}

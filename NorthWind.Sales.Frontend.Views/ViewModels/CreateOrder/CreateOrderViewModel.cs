@@ -1,0 +1,67 @@
+namespace NorthWind.Sales.Frontend.Views.ViewModels.CreateOrder;
+
+public class CreateOrderViewModel(ICreateOrderGateway gateway,
+    IModelValidatorHub<CreateOrderViewModel> validator)
+{
+    public IModelValidatorHub<CreateOrderViewModel> Validator => validator;
+
+    public ModelValidator<CreateOrderViewModel>
+        ModelValidatorComponentReference { get; set; }
+
+    #region Propiedades relacionadas a CreateOrderDto
+    public string CustomerId { get; set; }
+    public string ShipAddress { get; set; }
+    public string ShipCity { get; set; }
+    public string ShipCountry { get; set; }
+    public string ShipPostalCode { get; set; }
+    public List<CreateOrderDetailViewModel> OrderDetails { get; set; } = [];
+    #endregion
+
+    public string InformationMessage { get; private set; }
+
+    public void AddNewOrderDetailItem()
+    {
+        OrderDetails.Add(
+            new CreateOrderDetailViewModel());
+    }
+
+    public void RemoveOrderDetailItem(CreateOrderDetailViewModel item)
+    {
+        OrderDetails.Remove(item);
+    }
+
+    public async Task Send()
+    {
+        InformationMessage = "";
+        try
+        {
+            var OrderId = await gateway.CreateOrderAsync(
+                (CreateOrderDto)this);
+            InformationMessage = string.Format(
+                CreateOrderMessages.CreatedOrderTemplate, OrderId);
+        }
+        catch (HttpRequestException ex)
+        {
+            if (ex.Data.Contains("Errors"))
+            {
+                IEnumerable<ValidationError> Errors =
+                    ex.Data["Errors"] as IEnumerable<ValidationError>;
+                ModelValidatorComponentReference.AddErrors(Errors);
+            }
+            else
+            {
+                throw;
+            }
+        }
+    }
+
+    public static explicit operator CreateOrderDto(
+        CreateOrderViewModel model) =>
+        new CreateOrderDto(
+            model.CustomerId, model.ShipAddress, model.ShipCity,
+            model.ShipCountry, model.ShipPostalCode,
+            model.OrderDetails.Select(d => new CreateOrderDetailDto(
+                d.ProductId, d.UnitPrice,
+                d.Quantity > short.MaxValue ? (short)0 : (d.Quantity < 0 ? (short)0 : (short)d.Quantity))
+            ));
+}

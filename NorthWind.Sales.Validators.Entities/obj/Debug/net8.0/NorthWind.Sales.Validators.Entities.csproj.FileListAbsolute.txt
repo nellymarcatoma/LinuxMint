@@ -1,0 +1,51 @@
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Validators.Entities.deps.json
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Validators.Entities.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Validators.Entities.pdb
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Entities.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Validation.Entities.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Validation.Entities.pdb
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Entities.pdb
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.csproj.AssemblyReference.cache
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.AssemblyInfoInputs.cache
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.AssemblyInfo.cs
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.csproj.CoreCompileInputs.cache
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWin.B5DC4725.Up2Date
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\refint\NorthWind.Sales.Validators.Entities.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.pdb
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\ref\NorthWind.Sales.Validators.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Validators.Entities.deps.json
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Validators.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Validators.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Validation.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Validation.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.csproj.AssemblyReference.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.AssemblyInfoInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.AssemblyInfo.cs
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.csproj.CoreCompileInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWin.B5DC4725.Up2Date
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\refint\NorthWind.Sales.Validators.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\ref\NorthWind.Sales.Validators.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Validators.Entities.deps.json
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Validators.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Validators.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Validation.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Validation.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\bin\Debug\net8.0\NorthWind.Sales.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.csproj.AssemblyReference.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.AssemblyInfoInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.AssemblyInfo.cs
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.csproj.CoreCompileInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWin.B5DC4725.Up2Date
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\refint\NorthWind.Sales.Validators.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\NorthWind.Sales.Validators.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Sales.Validators.Entities\obj\Debug\net8.0\ref\NorthWind.Sales.Validators.Entities.dll

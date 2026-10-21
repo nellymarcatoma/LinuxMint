@@ -1,0 +1,2 @@
+# Configuración local de desarrollo; puede contener credenciales.
+**/appsettings.Development.json

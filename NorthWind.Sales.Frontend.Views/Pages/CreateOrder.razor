@@ -1,0 +1,16 @@
+@page "/createorder"
+@attribute [Authorize]
+
+<PageTitle>@CreateOrderMessages.CreateOrderPageTitle</PageTitle>
+
+<ErrorBoundary @ref=ErrorBoundaryRef>
+    <ChildContent>
+        <CreateOrderComponent Order=ViewModel/>
+    </ChildContent>
+    <ErrorContent>
+        <div class="alert alert-warning" role="alert">
+            <p class="mb-2">No pudimos cargar esta página. Inténtalo de nuevo.</p>
+            <button class="btn btn-primary" @onclick=Recover>Reintentar</button>
+        </div>
+    </ErrorContent>
+</ErrorBoundary>

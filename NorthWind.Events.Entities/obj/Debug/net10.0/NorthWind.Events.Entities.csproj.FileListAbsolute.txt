@@ -1,0 +1,12 @@
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\bin\Debug\net10.0\NorthWind.Events.Entities.deps.json
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\bin\Debug\net10.0\NorthWind.Events.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\bin\Debug\net10.0\NorthWind.Events.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\obj\Debug\net10.0\NorthWind.Events.Entities.csproj.AssemblyReference.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\obj\Debug\net10.0\NorthWind.Events.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\obj\Debug\net10.0\NorthWind.Events.Entities.AssemblyInfoInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\obj\Debug\net10.0\NorthWind.Events.Entities.AssemblyInfo.cs
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\obj\Debug\net10.0\NorthWind.Events.Entities.csproj.CoreCompileInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\obj\Debug\net10.0\NorthWind.Events.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\obj\Debug\net10.0\refint\NorthWind.Events.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\obj\Debug\net10.0\NorthWind.Events.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Events.Entities\obj\Debug\net10.0\ref\NorthWind.Events.Entities.dll

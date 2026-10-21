@@ -1,0 +1,229 @@
+@inject CustomerSearchViewModel ViewModel
+@implements IDisposable
+
+@if (IsOpen)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-search me-2"></i>Buscar cliente
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="input-group mb-3">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Nombre o número de cédula"
+                               value="@ViewModel.SearchTerm"
+                               @oninput="HandleSearchInput"
+                               @onkeydown="HandleKeyDown" />
+                        <button class="btn btn-primary px-4" type="button" @onclick="SearchCustomers">
+                            <i class="bi bi-search me-1"></i>Buscar
+                        </button>
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(ViewModel.ErrorMessage))
+                    {
+                        <div class="alert alert-warning py-2 px-3 mb-3 small">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i>@ViewModel.ErrorMessage
+                        </div>
+                    }
+
+                    @if (ViewModel.IsLoading)
+                    {
+                        <div class="text-center my-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Buscando clientes...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Buscando clientes...</p>
+                        </div>
+                    }
+                    else if (ViewModel.PagedResult.Items != null && ViewModel.PagedResult.Items.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Código</th>
+                                                <th>Cédula</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Correo Electrónico</th>
+                                        <th>Teléfono</th>
+                                        <th class="text-center">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var customer in ViewModel.PagedResult.Items)
+                                    {
+                                        <tr>
+                                            <td><span class="badge bg-secondary">@customer.CustomerId</span></td>
+                                            <td><strong>@((MarkupString)HighlightText(customer.Dni, ViewModel.SearchTerm))</strong></td>
+                                            <td>
+                                                @((MarkupString)HighlightText(customer.FullName, ViewModel.SearchTerm))
+                                                @if (customer.CurrentBalance > 0)
+                                                {
+                                                    <span class="badge bg-warning text-dark ms-1">Deuda $@customer.CurrentBalance.ToString("N2")</span>
+                                                }
+                                            </td>
+                                            <td><small class="text-muted">@((MarkupString)HighlightText(customer.Email, ViewModel.SearchTerm))</small></td>
+                                            <td><small>@((MarkupString)HighlightText(customer.Phone, ViewModel.SearchTerm))</small></td>
+                                            <td class="text-center">
+                                                <button type="button"
+                                                        class="btn btn-sm btn-primary"
+                                                        disabled="@(customer.CurrentBalance > 0)"
+                                                        @onclick="() => SelectCustomer(customer)">
+                                                    @(customer.CurrentBalance > 0 ? "Con deuda" : "Seleccionar")
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Block Pagination -->
+                        <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                            <small class="text-muted">
+                                Página @ViewModel.PagedResult.PageIndex de @ViewModel.PagedResult.TotalPages (@ViewModel.PagedResult.TotalCount registros en total)
+                            </small>
+                            <nav aria-label="Paginación de clientes">
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item @(!ViewModel.PagedResult.HasPreviousPage ? "disabled" : "")">
+                                        <button class="page-link" @onclick="() => GoToPage(ViewModel.PagedResult.PageIndex - 1)">
+                                            &laquo; Anterior
+                                        </button>
+                                    </li>
+
+                                    @for (int i = 1; i <= ViewModel.PagedResult.TotalPages; i++)
+                                    {
+                                        int pageNum = i;
+                                        <li class="page-item @(pageNum == ViewModel.PagedResult.PageIndex ? "active" : "")">
+                                            <button class="page-link" @onclick="() => GoToPage(pageNum)">
+                                                @pageNum
+                                            </button>
+                                        </li>
+                                    }
+
+                                    <li class="page-item @(!ViewModel.PagedResult.HasNextPage ? "disabled" : "")">
+                                        <button class="page-link" @onclick="() => GoToPage(ViewModel.PagedResult.PageIndex + 1)">
+                                            Siguiente &raquo;
+                                        </button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info text-center my-3">
+                            No encontramos clientes. Prueba con otro nombre o número de cédula.
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
+    [Parameter] public EventCallback<PosCustomerDto> OnCustomerSelected { get; set; }
+
+    private bool lastIsOpen;
+    private System.Timers.Timer? debounceTimer;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (IsOpen && !lastIsOpen)
+        {
+            ViewModel.SearchTerm = string.Empty;
+            ViewModel.CurrentPage = 1;
+            await ViewModel.SearchAsync(1);
+        }
+        lastIsOpen = IsOpen;
+    }
+
+    private void HandleSearchInput(ChangeEventArgs e)
+    {
+        ViewModel.SearchTerm = e.Value?.ToString() ?? string.Empty;
+        debounceTimer?.Stop();
+        debounceTimer?.Dispose();
+        debounceTimer = new System.Timers.Timer(300);
+        debounceTimer.AutoReset = false;
+        debounceTimer.Elapsed += async (_, _) =>
+        {
+            await InvokeAsync(async () =>
+            {
+                await ViewModel.SearchAsync(1);
+                StateHasChanged();
+            });
+        };
+        debounceTimer.Start();
+    }
+
+    private async Task SearchCustomers()
+    {
+        debounceTimer?.Stop();
+        await ViewModel.SearchAsync(1);
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SearchCustomers();
+        }
+    }
+
+    private async Task GoToPage(int page)
+    {
+        await ViewModel.GoToPageAsync(page);
+    }
+
+    private async Task SelectCustomer(PosCustomerDto customer)
+    {
+        await OnCustomerSelected.InvokeAsync(customer);
+        await CloseModal();
+    }
+
+    private async Task CloseModal()
+    {
+        debounceTimer?.Stop();
+        ViewModel.SearchTerm = string.Empty;
+        ViewModel.CurrentPage = 1;
+        IsOpen = false;
+        await IsOpenChanged.InvokeAsync(false);
+    }
+
+    private MarkupString HighlightText(string? text, string? query)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return (MarkupString)string.Empty;
+        if (string.IsNullOrWhiteSpace(query)) return (MarkupString)System.Net.WebUtility.HtmlEncode(text);
+
+        var trimmed = query.Trim();
+        if (string.IsNullOrWhiteSpace(trimmed)) return (MarkupString)System.Net.WebUtility.HtmlEncode(text);
+
+        var pattern = System.Text.RegularExpressions.Regex.Escape(trimmed);
+        var encodedText = System.Net.WebUtility.HtmlEncode(text);
+        var highlighted = System.Text.RegularExpressions.Regex.Replace(
+            encodedText,
+            $"({pattern})",
+            "<mark class=\"search-highlight\">$1</mark>",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+        return (MarkupString)highlighted;
+    }
+
+    public void Dispose()
+    {
+        debounceTimer?.Stop();
+        debounceTimer?.Dispose();
+    }
+}

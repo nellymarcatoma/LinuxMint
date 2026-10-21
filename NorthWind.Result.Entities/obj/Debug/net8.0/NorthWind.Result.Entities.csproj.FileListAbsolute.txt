@@ -1,0 +1,34 @@
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\bin\Debug\net8.0\NorthWind.Result.Entities.deps.json
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\bin\Debug\net8.0\NorthWind.Result.Entities.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\bin\Debug\net8.0\NorthWind.Result.Entities.pdb
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.AssemblyInfoInputs.cache
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.AssemblyInfo.cs
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.csproj.CoreCompileInputs.cache
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\refint\NorthWind.Result.Entities.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.pdb
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\ref\NorthWind.Result.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\bin\Debug\net8.0\NorthWind.Result.Entities.deps.json
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\bin\Debug\net8.0\NorthWind.Result.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\bin\Debug\net8.0\NorthWind.Result.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.AssemblyInfoInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.AssemblyInfo.cs
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.csproj.CoreCompileInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\refint\NorthWind.Result.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\ref\NorthWind.Result.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWin.50F33036.Up2Date
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\bin\Debug\net8.0\NorthWind.Result.Entities.deps.json
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\bin\Debug\net8.0\NorthWind.Result.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\bin\Debug\net8.0\NorthWind.Result.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.AssemblyInfoInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.AssemblyInfo.cs
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.csproj.CoreCompileInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\refint\NorthWind.Result.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\NorthWind.Result.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.Result.Entities\obj\Debug\net8.0\ref\NorthWind.Result.Entities.dll

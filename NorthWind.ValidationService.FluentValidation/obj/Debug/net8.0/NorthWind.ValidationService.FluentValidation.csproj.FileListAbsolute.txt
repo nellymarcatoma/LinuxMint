@@ -1,0 +1,45 @@
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.ValidationService.FluentValidation.deps.json
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.ValidationService.FluentValidation.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.ValidationService.FluentValidation.pdb
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.Validation.Entities.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.Validation.Entities.pdb
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.csproj.AssemblyReference.cache
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.AssemblyInfoInputs.cache
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.AssemblyInfo.cs
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.csproj.CoreCompileInputs.cache
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWin.B536FC6D.Up2Date
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\refint\NorthWind.ValidationService.FluentValidation.dll
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.pdb
+C:\Users\HP\Documents\Tecnologias y desarrollo web(EJERCICIOS)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\ref\NorthWind.ValidationService.FluentValidation.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.ValidationService.FluentValidation.deps.json
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.ValidationService.FluentValidation.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.ValidationService.FluentValidation.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.Validation.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.Validation.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.csproj.AssemblyReference.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.AssemblyInfoInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.AssemblyInfo.cs
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.csproj.CoreCompileInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWin.B536FC6D.Up2Date
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\refint\NorthWind.ValidationService.FluentValidation.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\ref\NorthWind.ValidationService.FluentValidation.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.ValidationService.FluentValidation.deps.json
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.ValidationService.FluentValidation.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.ValidationService.FluentValidation.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.Validation.Entities.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\bin\Debug\net8.0\NorthWind.Validation.Entities.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.csproj.AssemblyReference.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.AssemblyInfoInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.AssemblyInfo.cs
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.csproj.CoreCompileInputs.cache
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWin.B536FC6D.Up2Date
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\refint\NorthWind.ValidationService.FluentValidation.dll
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\NorthWind.ValidationService.FluentValidation.pdb
+C:\Tecnologias y Desarrollo Web (ejercicios)\NorthWind\NorthWind\NorthWind.ValidationService.FluentValidation\obj\Debug\net8.0\ref\NorthWind.ValidationService.FluentValidation.dll

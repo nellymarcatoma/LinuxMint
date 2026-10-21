@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "3hAERljMGiw=",
+  "success": true,
+  "projectFilePath": "C:\\Tecnologias y Desarrollo Web (ejercicios)\\NorthWind\\NorthWind\\NorthWind.Sales.Backend.UseCases\\NorthWind.Sales.Backend.UseCases.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Usuario\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.12\\microsoft.extensions.dependencyinjection.abstractions.10.0.12.nupkg.sha512",
+    "C:\\Users\\Usuario\\.nuget\\packages\\system.security.cryptography.pkcs\\10.0.13\\system.security.cryptography.pkcs.10.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}
